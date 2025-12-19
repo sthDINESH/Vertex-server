@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/sthDINESH/Vertex-server#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
