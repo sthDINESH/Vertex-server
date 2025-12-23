@@ -1,4 +1,4 @@
-require('dotenv').config()
+const config = require('./utils/config')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello from server</h1>')
 })
 
-const PORT = process.env.PORT
+const PORT = config.PORT
 app.listen(PORT, () => {
   console.log(`Starting Express server on ${PORT}...`)
 })
