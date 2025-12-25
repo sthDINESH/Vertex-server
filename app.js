@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const healthRouter = require('./controllers/health')
+const middleware = require('./utils/middleware')
 
 const app = express()
 
@@ -23,5 +24,6 @@ app.use(morgan(':date :method :url :status :res[content-length] - :response-time
  * Routes
  */
 app.use('/api/health', healthRouter)
+app.use(middleware.unknownEndpoint)
 
 module.exports = app
