@@ -18,7 +18,11 @@ app.use(cors(corsOptions))
 app.use(express.json())
 // Morgan
 morgan.token('body', (req) => JSON.stringify(req.body))
-app.use(morgan(':date :method :url :status :res[content-length] - :response-time ms :body'))
+app.use(
+  process.env.NODE_ENV==='test'
+    ? (req, res, next) => next()
+    : morgan(':date :method :url :status :res[content-length] - :response-time ms :body')
+)
 
 /**
  * Routes
