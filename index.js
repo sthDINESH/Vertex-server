@@ -2,6 +2,7 @@ const config = require('./utils/config')
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+const healthRouter = require('./controllers/health')
 
 const app = express()
 
@@ -15,6 +16,9 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use(express.json())
+
+// Routes
+app.use('/api/health', healthRouter)
 
 // Morgan
 morgan.token('body', (req) => JSON.stringify(req.body))
