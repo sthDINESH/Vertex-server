@@ -1,11 +1,19 @@
 const config = require('./utils/config')
 const express = require('express')
-const app = express()
+const cors = require('cors')
 const morgan = require('morgan')
+
+const app = express()
 
 /**
  * Middlewares
  * */
+const corsOptions = {
+  origin:[
+    /localhost/,
+  ]
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // Morgan
