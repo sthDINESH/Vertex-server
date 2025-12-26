@@ -37,7 +37,9 @@ const askGoogleGemini = async (contents) => {
   }
   catch(error){
     if (error.name === 'SyntaxError') {throw error}
-    throw new ApiError(error.message)
+    const apiError = new ApiError(error.message)
+    apiError.code = error?.code
+    throw apiError
   }
 }
 
