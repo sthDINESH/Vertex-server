@@ -1,6 +1,8 @@
+const { ValidationError } = require('./errors')
+
 const dependencyPrompt = ({ concept, level, subject }) => {
   if(!concept){
-    throw new Error('concept required to generate concept map.')
+    throw new ValidationError('concept input required to generate concept map.')
   }
 
   return (

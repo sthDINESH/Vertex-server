@@ -6,13 +6,8 @@ const { askGoogleGemini } = require('./googleGeminiService')
  * Returns: dependency map as json
  */
 const generateDependencyMap = async ({ concept, level, subject }) => {
-  try {
-    const response = await askGoogleGemini(dependencyPrompt({ concept, level, subject }))
-    return JSON.parse(response)
-  }
-  catch(error){
-    if (error) throw error
-  }
+  const response = await askGoogleGemini(dependencyPrompt({ concept, level, subject }))
+  return JSON.parse(response)
 }
 
 module.exports = {

@@ -38,5 +38,6 @@ app.use(
 app.use('/api/health', healthRouter)
 app.use('/api/generate-map', mapRouter)
 app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
 
 module.exports = app
