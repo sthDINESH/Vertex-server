@@ -10,3 +10,33 @@ Content-Type: application/json
 POST http://localhost:3001/api/generate-map
 Content-Type: application/json
 
+{
+    "concept": "newton's laws of motion",
+    "level": "undergraduate"
+}
+
+###
+
+POST http://localhost:3001/api/generate-map
+Content-Type: application/json
+
+{
+    "concept": "conjugation of re verbs",
+    "level": "high school"
+}
+
+###
+
+POST http://localhost:3001/api/generate-map
+Content-Type: application/json
+
+{
+    "concept": "how to make omelette",
+    "level": "high school"
+}
+
+###
+
+POST http://localhost:3001/api/generate-map
+Content-Type: application/json
+
