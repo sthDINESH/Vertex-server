@@ -50,3 +50,17 @@ Content-Type: application/json
 POST http://localhost:3001/api/generate-map
 Content-Type: application/json
 
+###
+
+POST https://vertex-server-470b.onrender.com/api/generate-map
+Content-Type: application/json
+
+{
+    "concept": "Liason in French"
+}
+
+###
+
+POST https://vertex-server-470b.onrender.com/api/generate-map
+Content-Type: application/json
+

@@ -5,7 +5,7 @@ const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 }
 
-const errorHandler = (error, req, res) => {
+const errorHandler = (error, req, res, next) => {
   logger.error('Error:', error.message)
 
   // API errors
@@ -28,10 +28,7 @@ const errorHandler = (error, req, res) => {
     return res.status(429).json({ error: 'Too many requests. Please try again later.' })
   }
 
-  // Default error
-  res.status(error.status || 500).json({
-    error: error.message || 'Internal server error'
-  })
+  next(error)
 }
 
 // General API rate limiter
