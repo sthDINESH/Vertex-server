@@ -1,15 +1,15 @@
 const logger = require('./logger')
+const rateLimit = require('express-rate-limit')
+
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 }
 
 const errorHandler = (error, req, res, next) => {
-  logger.error('Error:', error)
+  logger.error('Error:', error.message)
 
   // API errors
-  // Network/timeout errors
-  // Rate limiting
-  if (error.name === 'ApiError'){
+  if (error.name === 'ApiError') {
     return res.status(503).json({ error: 'AI Service temporarily unavailable' })
   }
 
@@ -18,24 +18,47 @@ const errorHandler = (error, req, res, next) => {
     return res.status(502).json({ error: 'Invalid response from AI service' })
   }
 
-  // if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
-  //   return res.status(503).json({ error: 'Service temporarily unavailable' })
-  // }
-
-  // // Rate limiting
-  // if (error.status === 429) {
-  //   return res.status(429).json({ error: 'Too many requests. Please try again later' })
-  // }
-
-  // Custom validation errors
+  // Validation errors
   if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
   }
 
-  next(error)
+  // Rate limiting errors
+  if (error.status === 429) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' })
+  }
+
+  // Default error
+  res.status(error.status || 500).json({
+    error: error.message || 'Internal server error'
+  })
 }
+
+// General API rate limiter
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  handler: (req, res) => {
+    res.status(429).json({ error: 'Too many requests from this IP, please try again later.' })
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+
+// Stricter limiter for AI service (expensive API calls)
+const aiServiceLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 20, // limit each IP to 20 requests per hour
+  handler: (req, res) => {
+    res.status(429).json({ error: 'Too many concept map requests, please try again later.' })
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+})
 
 module.exports = {
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  apiLimiter,
+  aiServiceLimiter,
 }

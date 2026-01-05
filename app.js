@@ -8,6 +8,11 @@ const mapRouter = require('./controllers/dependencyMap')
 const app = express()
 
 /**
+ * Security & Proxy Configuration
+ */
+app.set('trust proxy', 1) //single reverse proxy
+
+/**
  * Middlewares
  * */
 const corsOptions = {
@@ -17,6 +22,9 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use(express.json())
+
+// Apply general rate limiter for all routes
+app.use(middleware.apiLimiter)
 // Morgan
 morgan.token('body', (req) => JSON.stringify(req.body))
 // Log incoming request immediately
@@ -36,7 +44,7 @@ app.use(
  * Routes
  */
 app.use('/api/health', healthRouter)
-app.use('/api/generate-map', mapRouter)
+app.use('/api/generate-map', middleware.aiServiceLimiter, mapRouter) // Stricter limit for AI Service
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 

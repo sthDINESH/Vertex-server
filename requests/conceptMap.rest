@@ -40,3 +40,13 @@ Content-Type: application/json
 POST http://localhost:3001/api/generate-map
 Content-Type: application/json
 
+{
+    "concept": "how to make a cup of tea",
+    "level": "high school"
+}
+
+###
+
+POST http://localhost:3001/api/generate-map
+Content-Type: application/json
+
