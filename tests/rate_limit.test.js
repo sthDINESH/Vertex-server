@@ -1,7 +1,7 @@
 const supertest = require('supertest')
 const { describe, test, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
-const geminiService = require('../utils/googleGeminiService')
+const geminiService = require('../services/googleGeminiService')
 const sinon = require('sinon')
 const app = require('../app')
 

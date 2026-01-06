@@ -4,7 +4,7 @@ const assert = require('node:assert')
 const sinon = require('sinon')
 
 // Import before app to stub before any calls
-const geminiService = require('../utils/googleGeminiService')
+const geminiService = require('../services/googleGeminiService')
 const app = require('../app')
 
 const api = supertest(app)

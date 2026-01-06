@@ -1,8 +1,8 @@
-const { dependencyPrompt } = require('./prompt')
+const { dependencyPrompt } = require('../utils/prompt')
 const { askGoogleGemini } = require('./googleGeminiService')
-const { BadResponseError } = require('./errors')
-const { validateConceptMap, validateTreeStructure } = require('./validators')
-const logger = require('./logger')
+const { BadResponseError } = require('../utils/errors')
+const { validateConceptMap, validateTreeStructure } = require('../utils/validators')
+const logger = require('../utils/logger')
 
 /**
  * Calls AI service to generate dependency maps

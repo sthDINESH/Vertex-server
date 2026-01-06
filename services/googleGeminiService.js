@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require('@google/genai')
-const config = require('./config')
-const { ApiError, BadResponseError } = require('./errors')
+const config = require('../utils/config')
+const { ApiError, BadResponseError } = require('../utils/errors')
 
 const googleGeminiClient = new GoogleGenAI({ apiKey: config.GEMINI_API_KEY })
 

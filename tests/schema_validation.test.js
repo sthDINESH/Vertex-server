@@ -3,7 +3,7 @@ const assert = require('node:assert')
 const sinon = require('sinon')
 const supertest = require('supertest')
 const app = require('../app')
-const geminiService = require('../utils/googleGeminiService')
+const geminiService = require('../services/googleGeminiService')
 
 const api = supertest(app)
 

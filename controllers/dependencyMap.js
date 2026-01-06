@@ -1,4 +1,4 @@
-const { generateDependencyMap } = require('../utils/aiService')
+const { generateDependencyMap } = require('../services/aiService')
 const { retryWithBackoff } = require('../utils/helpers')
 const router = require('express').Router()
 
