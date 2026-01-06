@@ -4,6 +4,8 @@
 
 Vertex Server is a Node.js/Express backend API that generates prerequisite knowledge concept maps using Google's Gemini AI. It validates API responses against strict schemas, implements retry logic for resilience, and enforces rate limiting to protect resources.
 
+**Live API:** https://vertex-server-470b.onrender.com
+
 ## Features
 
 - **AI-Powered Concept Maps** - Generates prerequisite knowledge trees for any concept using Google Gemini API
@@ -25,6 +27,7 @@ Vertex Server is a Node.js/Express backend API that generates prerequisite knowl
 - **Testing**: Node's built-in test runner with Sinon for mocking
 - **Linting**: ESLint with Stylistic rules
 - **Environment**: dotenv for configuration
+- **Deployment**: Render.com
 
 ## Project Structure
 
