@@ -5,6 +5,20 @@ class ValidationError extends Error {
   }
 }
 
+class BadRequestError extends ValidationError {
+  constructor(message){
+    super(message)
+    this.name = 'BadRequestError'
+  }
+}
+
+class BadResponseError extends ValidationError {
+  constructor(message){
+    super(message)
+    this.name = 'BadResponseError'
+  }
+}
+
 class ApiError extends Error {
   constructor(message){
     super(message)
@@ -13,4 +27,4 @@ class ApiError extends Error {
   }
 }
 
-module.exports = { ValidationError, ApiError }
+module.exports = { ValidationError, BadRequestError, BadResponseError, ApiError }

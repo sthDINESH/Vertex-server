@@ -2,10 +2,10 @@ const logger = require('./logger')
 const rateLimit = require('express-rate-limit')
 
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'unknown endpoint' })
+  res.status(404).json({ error: 'unknown endpoint' })
 }
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler = (error, req, res, _next) => {
   logger.error('Error:', error.message)
 
   // API errors
@@ -13,13 +13,12 @@ const errorHandler = (error, req, res, next) => {
     return res.status(503).json({ error: 'AI Service temporarily unavailable' })
   }
 
-  // Syntax errors
-  if (error.name === 'SyntaxError') {
+  // Validation errors
+  if (error.name === 'BadResponseError') {
     return res.status(502).json({ error: 'Invalid response from AI service' })
   }
 
-  // Validation errors
-  if (error.name === 'ValidationError') {
+  if (error.name === 'BadRequestError') {
     return res.status(400).json({ error: error.message })
   }
 
@@ -28,7 +27,10 @@ const errorHandler = (error, req, res, next) => {
     return res.status(429).json({ error: 'Too many requests. Please try again later.' })
   }
 
-  next(error)
+  // Default error handler - return JSON
+  return res.status(error.status || 500).json({
+    error: error.message || 'Internal server error'
+  })
 }
 
 // General API rate limiter

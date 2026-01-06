@@ -186,7 +186,7 @@ describe('POST /api/generate-map', () => {
           }
           // Success on third attempt (after 2 retries)
           return {
-            text: '```json\n{"target": "React", "prerequisites": []}\n```'
+            text: '```json\n{"target": "React", "prerequisites": [{"id": 1, "name": "JavaScript", "description": "Learn JS", "prerequisites": [], "level": "foundational"}]}\n```'
           }
         })
 
@@ -198,6 +198,7 @@ describe('POST /api/generate-map', () => {
       // Verify: called 3 times (2 failures + 1 success)
       assert.strictEqual(callCount, 3)
       assert.strictEqual(response.body.target, 'React')
+      assert.strictEqual(response.body.prerequisites.length, 1)
     })
 
     test('should fail after max retries exhausted', async () => {

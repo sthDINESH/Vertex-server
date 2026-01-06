@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require('@google/genai')
 const config = require('./config')
-const { ApiError } = require('./errors')
+const { ApiError, BadResponseError } = require('./errors')
 
 const googleGeminiClient = new GoogleGenAI({ apiKey: config.GEMINI_API_KEY })
 
@@ -9,12 +9,14 @@ const googleGeminiClient = new GoogleGenAI({ apiKey: config.GEMINI_API_KEY })
  * @param {*} responseText : response.text from Gemini
  * @returns : sanitized stringified JSON
  */
-const sanitizeResponseText = (responseText) => {
-  return (
-    responseText
-      .replace(/^```json\n?/,'')
-      .replace(/\n?```$/, '')
-  )
+const sanitizeResponse = (response) => {
+  if (!response.text){
+    throw new BadResponseError('No text content in API response')
+  }
+
+  return response.text
+    .replace(/^```json\n?/,'')
+    .replace(/\n?```$/, '')
 }
 
 /**
@@ -28,15 +30,13 @@ const askGoogleGemini = async (contents) => {
       model: 'gemini-2.5-flash',
       contents,
     })
-
-    if (!response?.text){
-      throw new SyntaxError('No text content in API response')
-    }
-
-    return sanitizeResponseText(response.text)
+    return sanitizeResponse(response)
   }
   catch(error){
-    if (error.name === 'SyntaxError') {throw error}
+    if (error instanceof BadResponseError) {
+      throw error
+    }
+    // Wrap other errors as ApiError
     const apiError = new ApiError(error.message)
     apiError.code = error?.code
     throw apiError
