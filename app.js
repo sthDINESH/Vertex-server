@@ -16,8 +16,9 @@ app.set('trust proxy', 1) //single reverse proxy
  * Middlewares
  * */
 const corsOptions = {
-  origin:[
+  origin: [
     /localhost/,
+    /https:\/\/vertex[a-zA-Z0-9-]*\.vercel\.app/,
   ]
 }
 app.use(cors(corsOptions))
