@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/generate-quiz
+Content-Type: application/json
+
+{
+    "name": "React Basics",
+    "description": "Understanding React components, JSX syntax, and component lifecycle",
+    "level": "undergraduate",
+    "numQuestions": 5
+}
+

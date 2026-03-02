@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const middleware = require('./utils/middleware')
 const healthRouter = require('./controllers/health')
 const mapRouter = require('./controllers/dependencyMap')
+const quizRouter = require('./controllers/quiz')
 
 const app = express()
 
@@ -46,6 +47,7 @@ app.use(
  */
 app.use('/api/health', healthRouter)
 app.use('/api/generate-map', middleware.aiServiceLimiter, mapRouter) // Stricter limit for AI Service
+app.use('/api/generate-quiz', middleware.aiServiceLimiter, quizRouter) // Stricter limit for AI Service
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
