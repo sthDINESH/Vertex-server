@@ -1,6 +1,20 @@
-const { conceptMapSchema } = require('./schemas')
+const { conceptMapSchema, questionBankSchema } = require('./schemas')
 const { BadResponseError } = require('./errors')
 const logger = require('./logger')
+
+/**
+ * Creates a formatted BadResponseError from Zod validation errors
+ * @param {Object} zodError - Zod validation error object containing issues array
+ * @param {string} errorMsg - Base error message to prepend to validation details
+ * @returns {BadResponseError} A BadResponseError with formatted message and validation details
+ */
+const createValidationError = (zodError, errorMsg) => {
+  const messages = zodError.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`)
+  const error = new BadResponseError(`${errorMsg}: ${messages.join('; ')}`)
+  error.details = zodError.issues
+
+  return error
+}
 
 /**
  * Validate concept map structure
@@ -16,10 +30,7 @@ const validateConceptMap = (data) => {
     logger.error('[Validation] Concept map validation failed:', error.issues)
 
     // Create detailed error message from Zod issues
-    const messages = error.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`)
-    const validationError = new BadResponseError(`Invalid concept map: ${messages.join('; ')}`)
-    validationError.details = error.issues
-
+    const validationError = createValidationError(error, 'Invalid concept map')
     throw validationError
   }
 }
@@ -40,11 +51,30 @@ const validateTreeStructure = (conceptMap) => {
       }
     }
   }
-
   return true
+}
+
+/**
+ * Validates question bank structure against schema
+ * @param {Object} questionBank - Question bank object to validate
+ * @returns {Object} Validated question bank object
+ * @throws {BadResponseError} If validation fails with detailed error messages
+ */
+const validateQuestionBank = (questionBank) => {
+  try {
+    const validated = questionBankSchema.parse(questionBank)
+    return validated
+  } catch(error) {
+    logger.error('[Validation] Question bank validation failed:', error.issues)
+
+    // Create detailed error message from Zod issues
+    const validationError = createValidationError(error, 'Invalid question bank')
+    throw validationError
+  }
 }
 
 module.exports = {
   validateConceptMap,
-  validateTreeStructure
+  validateTreeStructure,
+  validateQuestionBank,
 }

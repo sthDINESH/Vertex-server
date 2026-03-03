@@ -1,7 +1,7 @@
 const { dependencyPrompt, quizPrompt } = require('../utils/prompt')
 const { askGoogleGemini } = require('./googleGeminiService')
 const { BadResponseError } = require('../utils/errors')
-const { validateConceptMap, validateTreeStructure } = require('../utils/validators')
+const { validateConceptMap, validateTreeStructure, validateQuestionBank } = require('../utils/validators')
 const logger = require('../utils/logger')
 
 /**
@@ -48,9 +48,10 @@ const generateQuiz = async({ name, description, level, numQuestions }) => {
     throw new BadResponseError('Invalid JSON response from AI service')
   }
 
-  // TODO: validate response against schema
+  // Validate against Schema
+  const validated = validateQuestionBank(parsedResponse)
 
-  return parsedResponse
+  return validated
 }
 
 module.exports = {
