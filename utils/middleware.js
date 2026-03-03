@@ -47,7 +47,7 @@ const apiLimiter = rateLimit({
 // Stricter limiter for AI service (expensive API calls)
 const aiServiceLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 20, // limit each IP to 20 requests per hour
+  max: 40, // limit each IP to 24 requests per hour
   handler: (req, res) => {
     res.status(429).json({ error: 'Too many concept map requests, please try again later.' })
   },

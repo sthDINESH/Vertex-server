@@ -40,17 +40,17 @@ describe('rate limiting', () => {
 
     test('should have stricter rate limit and return 429', async () => {
       // The /api/generate-map endpoint should rate limit faster
-      // (20 requests per hour)
+      // (40 requests per hour)
       let response = null
 
-      for(let i = 0; i < 21; i++) {
+      for(let i = 0; i < 41; i++) {
         response = await api
           .post('/api/generate-map')
           .set('X-Forwarded-For', '192.168.1.101')
           .send({ concept: 'React' })
       }
 
-      // 21st request should be rate limited
+      // 41st request should be rate limited
       assert.strictEqual(response.status, 429)
       assert(response.body.error.includes('Too many concept map requests'))
 

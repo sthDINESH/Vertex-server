@@ -45,7 +45,7 @@ const dependencyPrompt = ({ concept, level, subject }) => {
  */
 const quizPrompt = ({ name, description, level, numQuestions }) => {
   if(!(name && description && level && numQuestions)){
-    throw new BadRequestError('missing params required to generate fetch quiz.')
+    throw new BadRequestError('missing params required to generate quiz.')
   }
 
   return (
